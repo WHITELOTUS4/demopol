@@ -20,8 +20,5 @@
                 "Access-Control-Allow-Headers": "Content-Type,Authorization"
             }
         }
-    ],
-    "plugins": [
-        "@vercel/cors"
     ]
 }
