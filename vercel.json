@@ -1,0 +1,19 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "./main.py",
+            "use": "@vercel/python",
+            "config": {
+                "install-python": true,
+                "PYTHON_VERSION": "3.10"
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/"
+        }
+    ]
+}
