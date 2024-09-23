@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from datetime import datetime
 import Preprocessor
 import json
@@ -24,10 +25,14 @@ def read_root():
 @app.get("/api/")
 def read_root(number: list[str] = Query(...)):
     return {"result": number, "time": timeStamp()}
-    
-@app.get("/api/imageConverter")
-def read_root(form, img):
-    src = Preprocessor.convert_jpg(img)
+
+class ImageData(BaseModel):
+    form: str
+    img: str
+
+@app.post("/api/imageConverter")
+def read_root(data: ImageData):
+    src = Preprocessor.convert_jpg(data.img)
     return {"result": src, "time": timeStamp()}
 
 @app.get("/sum")

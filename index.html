@@ -31,10 +31,21 @@
             reader.onload = function(){
                 imagePath = reader.result;
                 // console.log(imagePath);
-                fetch(`http://127.0.0.1:8000/api/imageConverter?form=jpg&img=${imagePath.toString()}`).then(res => res.json()).then(data => {
+                fetch('http://127.0.0.1:8000/api/imageConverter', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        form: 'jpg',
+                        img: imagePath
+                    })
+                }).then(res => res.json()).then(data => {
                     console.log(data);
                     imageLog = data.result;
                     document.body.innerHTML += `<img src="${imageLog.replaceAll(' ','+')}" alt="load" width="200"/>`;
+                }).catch(error => {
+                    console.log('Error: ' , error);
                 })
             }
         }
@@ -45,5 +56,10 @@
     //     document.body.innerHTML += "sum: "+(data.sum);
     // })
     // .catch(err => console.log('something error to get api responce'));
+    // fetch(`https://demopol.vercel.app/api/imageConverter?form=jpg&img=${imagePath.toString()}`).then(res => res.json()).then(data => {
+    //                 console.log(data);
+    //                 imageLog = data.result;
+    //                 document.body.innerHTML += `<img src="${imageLog.replaceAll(' ','+')}" alt="load" width="200"/>`;
+    //             })
 </script>
 </html>
