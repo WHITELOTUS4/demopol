@@ -17,12 +17,33 @@
 </style>
 <body>
     <h1>CHS API</h1>
+    <input type="file" id="file-input" accept="image/*" name="file-input" onchange="imgdata();"/>
 </body>
 <script>
+    let imagePath = '';
+    let imageLog = '';
+    function imgdata(){
+        let fileInput = document.getElementById('file-input');
+        if(fileInput.files.length!=0){
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function(){
+                imagePath = reader.result;
+                // console.log(imagePath);
+                fetch(`http://127.0.0.1:8000/api/imageConverter?form=jpg&img=${imagePath.toString()}`).then(res => res.json()).then(data => {
+                    console.log(data);
+                    imageLog = data.result;
+                    document.body.innerHTML += `<img src="${imageLog.replaceAll(' ','+')}" alt="load" width="200"/>`;
+                })
+            }
+        }
+    }
     //demopol.vercel.app
-    fetch('http://demopol.vercel.app/sum?a=3&b=2').then(res => res.json()).then(data => {
-        console.log(data);
-        document.body.innerHTML += "sum: "+(data.sum);
-    }).catch(err => console.log('something error to get api responce'));
+    // fetch('http://127.0.0.1:8000/sum?a=10&b=15').then(res => res.json()).then(data => {
+    //     console.log(data);
+    //     document.body.innerHTML += "sum: "+(data.sum);
+    // })
+    // .catch(err => console.log('something error to get api responce'));
 </script>
 </html>

@@ -14,15 +14,24 @@ app.add_middleware(
     allow_headers = ["*"],
 )
 
+def timeStamp():
+   return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
 @app.get("/")
 def read_root():
     return {"Ahoy hoy": "Universe"}
 
 @app.get("/api/")
 def read_root(number: list[str] = Query(...)):
-    return {"result": number, "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+    return {"result": number, "time": timeStamp()}
+    
+@app.get("/api/imageConverter")
+def read_root(form, img):
+    src = Preprocessor.convert_jpg(img)
+    return {"result": src, "time": timeStamp()}
 
 @app.get("/sum")
 def read_root(a, b):
     result = Preprocessor.sum(int(a), int(b))
-    return {"sum": result, "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+    return {"sum": result, "time": timeStamp()}
+
